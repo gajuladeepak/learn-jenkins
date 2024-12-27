@@ -5,6 +5,7 @@ pipeline {
     options {
         timeout(time: 10, unit: 'SECONDS')
         disableConcurrentBuilds()
+        retry(1)
     }
     stages {
         stage('Build') { 
@@ -21,11 +22,12 @@ pipeline {
         stage('Deploy') { 
             steps {
                 sh 'echo this is build'
+                error 'pipeline failed'
             }
         }
     }
 
-    post{
+    post {
         always{
             echo "This sections runs always"
             deleteDir()
